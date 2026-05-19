@@ -3,22 +3,22 @@ import { Button } from '@/components/ui/button';
 import DigitalSerenity from '@/components/ui/digital-serenity';
 
 const Home = () => {
-  const [mouseGradientStyle, setMouseGradientStyle] = useState({
+  const [mouseGradientStyle, setMouseGradientStyle] = useState<{ left: string; top: string; opacity: number }>({
     left: '0px',
     top: '0px',
     opacity: 0,
   });
-  const [ripples, setRipples] = useState([]);
+  const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([]);
   const [scrolled, setScrolled] = useState(false);
-  const floatingElementsRef = useRef([]);
+  const floatingElementsRef = useRef<HTMLElement[]>([]);
 
   useEffect(() => {
     const animateWords = () => {
       const wordElements = document.querySelectorAll('.word-animate');
       wordElements.forEach(word => {
-        const delay = parseInt(word.getAttribute('data-delay')) || 0;
+        const delay = parseInt(word.getAttribute('data-delay') || '0') || 0;
         setTimeout(() => {
-          if (word) word.style.animation = 'word-appear 0.8s ease-out forwards';
+          if (word instanceof HTMLElement) word.style.animation = 'word-appear 0.8s ease-out forwards';
         }, delay);
       });
     };
@@ -27,7 +27,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       setMouseGradientStyle({
         left: `${e.clientX}px`,
         top: `${e.clientY}px`,
@@ -46,7 +46,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const handleClick = (e) => {
+    const handleClick = (e: MouseEvent) => {
       const newRipple = { id: Date.now(), x: e.clientX, y: e.clientY };
       setRipples(prev => [...prev, newRipple]);
       setTimeout(() => setRipples(prev => prev.filter(r => r.id !== newRipple.id)), 1000);
@@ -57,8 +57,8 @@ const Home = () => {
 
   useEffect(() => {
     const wordElements = document.querySelectorAll('.word-animate');
-    const handleMouseEnter = (e) => { if (e.target) e.target.style.textShadow = '0 0 20px rgba(203, 213, 225, 0.5)'; };
-    const handleMouseLeave = (e) => { if (e.target) e.target.style.textShadow = 'none'; };
+    const handleMouseEnter = (e: Event) => { if (e.target instanceof HTMLElement) e.target.style.textShadow = '0 0 20px rgba(203, 213, 225, 0.5)'; };
+    const handleMouseLeave = (e: Event) => { if (e.target instanceof HTMLElement) e.target.style.textShadow = 'none'; };
     wordElements.forEach(word => {
       word.addEventListener('mouseenter', handleMouseEnter);
       word.addEventListener('mouseleave', handleMouseLeave);
@@ -75,7 +75,7 @@ const Home = () => {
 
   useEffect(() => {
     const elements = document.querySelectorAll('.floating-element-animate');
-    floatingElementsRef.current = Array.from(elements);
+    floatingElementsRef.current = Array.from(elements) as HTMLElement[];
     const handleScroll = () => {
       if (!scrolled) {
         setScrolled(true);
@@ -231,6 +231,12 @@ const Home = () => {
                   period: 'Apr 2021 - Jul 2023',
                   delay: '900'
                 },
+                {
+                  title: 'Assistant Brand Manager',
+                  company: 'Samba Financial Group',
+                  period: 'Jan 2019 - Jul 2021',
+                  delay: '1200'
+                },
               ].map((job, idx) => (
                 <div key={idx} className="border-l border-slate-400 border-opacity-30 pl-6 opacity-0" style={{ animation: 'word-appear 0.8s ease-out forwards', animationDelay: job.delay + 'ms' }}>
                   <h3 className="text-xl font-light text-slate-100 mb-2">{job.title}</h3>
@@ -281,15 +287,16 @@ const Home = () => {
               <span className="word-animate" data-delay="0">Skills</span>
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { title: 'Meta Ads Manager', delay: '300' },
-                { title: 'GA4', delay: '500' },
-                { title: 'Project Management', delay: '700' },
-                { title: 'Languages: English & Arabic', delay: '900' },
+                { category: 'Digital Marketing', items: 'Meta Ads Manager, GA4, Performance Marketing', delay: '300' },
+                { category: 'Communication', items: 'Corporate Communications, Brand Management', delay: '500' },
+                { category: 'Management', items: 'Project Management, Team Leadership', delay: '700' },
+                { category: 'Languages', items: 'Fluent in English and Arabic', delay: '900' },
               ].map((skill, idx) => (
-                <div key={idx} className="border border-slate-400 border-opacity-20 rounded-lg p-6 opacity-0 hover:border-opacity-40 transition-all duration-300" style={{ animation: 'word-appear 0.8s ease-out forwards', animationDelay: skill.delay + 'ms' }}>
-                  <p className="text-slate-200 font-light">{skill.title}</p>
+                <div key={idx} className="p-6 border border-slate-400 border-opacity-20 rounded-lg opacity-0" style={{ animation: 'word-appear 0.8s ease-out forwards', animationDelay: skill.delay + 'ms' }}>
+                  <h3 className="text-lg font-light text-slate-100 mb-2">{skill.category}</h3>
+                  <p className="text-slate-400 text-sm">{skill.items}</p>
                 </div>
               ))}
             </div>
@@ -297,29 +304,21 @@ const Home = () => {
         </div>
 
         {/* Contact Section */}
-        <div className="section-content relative z-10 min-h-screen py-20 px-6 sm:px-8 md:px-16 flex flex-col justify-center items-center">
-          <div className="text-center max-w-2xl">
-            <h2 className="text-4xl md:text-5xl font-extralight text-slate-50 mb-8 text-decoration-animate">
+        <div className="section-content relative z-10 py-20 px-6 sm:px-8 md:px-16 mb-20">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl md:text-5xl font-extralight text-slate-50 mb-12 text-decoration-animate inline-block">
               <span className="word-animate" data-delay="0">Get In Touch</span>
             </h2>
-            <p className="text-slate-300 text-lg mb-12 opacity-0" style={{ animation: 'word-appear 0.8s ease-out forwards', animationDelay: '500ms' }}>
-              Let's collaborate and create something extraordinary together.
-            </p>
-            <div className="space-y-4 opacity-0" style={{ animation: 'word-appear 0.8s ease-out forwards', animationDelay: '800ms' }}>
-              <a href="mailto:aa.aljabhan@gmail.com" className="block text-slate-300 hover:text-slate-100 transition-colors duration-300">
-                aa.aljabhan@gmail.com
-              </a>
-              <a href="tel:+966557895552" className="block text-slate-300 hover:text-slate-100 transition-colors duration-300">
-                +966 55 789 5552
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="block text-slate-300 hover:text-slate-100 transition-colors duration-300">
-                LinkedIn
-              </a>
+            
+            <div className="space-y-4 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '500ms' }}>
+              <p className="text-xl text-slate-300 font-thin">aa.aljabhan@gmail.com</p>
+              <p className="text-xl text-slate-300 font-thin">+966 55 789 5552</p>
+              <p className="text-slate-500 font-mono text-sm mt-8">Riyadh, Saudi Arabia</p>
             </div>
           </div>
         </div>
 
-        {/* Mouse Gradient */}
+        {/* Mouse Gradient Overlay */}
         <div 
           id="mouse-gradient-react"
           className="w-60 h-60 blur-xl sm:w-80 sm:h-80 sm:blur-2xl md:w-96 md:h-96 md:blur-3xl"
@@ -330,7 +329,7 @@ const Home = () => {
           }}
         ></div>
 
-        {/* Ripple Effects */}
+        {/* Ripples */}
         {ripples.map(ripple => (
           <div
             key={ripple.id}
