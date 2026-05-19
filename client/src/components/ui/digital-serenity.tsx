@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import DigitalSerenity from '@/components/ui/digital-serenity';
 
-const Home = () => {
+const DigitalSerenity = () => {
   const [mouseGradientStyle, setMouseGradientStyle] = useState({
     left: '0px',
     top: '0px',
@@ -54,7 +52,7 @@ const Home = () => {
     document.addEventListener('click', handleClick);
     return () => document.removeEventListener('click', handleClick);
   }, []);
-
+  
   useEffect(() => {
     const wordElements = document.querySelectorAll('.word-animate');
     const handleMouseEnter = (e) => { if (e.target) e.target.style.textShadow = '0 0 20px rgba(203, 213, 225, 0.5)'; };
@@ -118,7 +116,6 @@ const Home = () => {
     .floating-element-animate { position: absolute; width: 2px; height: 2px; background: #cbd5e1; border-radius: 50%; opacity: 0; animation: float 4s ease-in-out infinite; animation-play-state: paused; }
     @keyframes float { 0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; } 25% { transform: translateY(-10px) translateX(5px); opacity: 0.6; } 50% { transform: translateY(-5px) translateX(-3px); opacity: 0.4; } 75% { transform: translateY(-15px) translateX(7px); opacity: 0.8; } }
     .ripple-effect { position: fixed; width: 4px; height: 4px; background: rgba(203, 213, 225, 0.6); border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; animation: pulse-glow 1s ease-out forwards; z-index: 9999; }
-    .section-content { position: relative; z-index: 10; }
   `;
 
   return (
@@ -126,7 +123,6 @@ const Home = () => {
       <style>{pageStyles}</style>
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-800 text-slate-100 font-primary overflow-hidden relative">
         
-        {/* Background Grid SVG */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
             <pattern id="gridReactDarkResponsive" width="60" height="60" patternUnits="userSpaceOnUse">
@@ -138,10 +134,13 @@ const Home = () => {
           <line x1="0" y1="80%" x2="100%" y2="80%" className="grid-line" style={{ animationDelay: '1s' }} />
           <line x1="20%" y1="0" x2="20%" y2="100%" className="grid-line" style={{ animationDelay: '1.5s' }} />
           <line x1="80%" y1="0" x2="80%" y2="100%" className="grid-line" style={{ animationDelay: '2s' }} />
+          <line x1="50%" y1="0" x2="50%" y2="100%" className="grid-line" style={{ animationDelay: '2.5s', opacity: '0.05' }} />
+          <line x1="0" y1="50%" x2="100%" y2="50%" className="grid-line" style={{ animationDelay: '3s', opacity: '0.05' }} />
           <circle cx="20%" cy="20%" r="2" className="detail-dot" style={{ animationDelay: '3s' }} />
           <circle cx="80%" cy="20%" r="2" className="detail-dot" style={{ animationDelay: '3.2s' }} />
           <circle cx="20%" cy="80%" r="2" className="detail-dot" style={{ animationDelay: '3.4s' }} />
           <circle cx="80%" cy="80%" r="2" className="detail-dot" style={{ animationDelay: '3.6s' }} />
+          <circle cx="50%" cy="50%" r="1.5" className="detail-dot" style={{ animationDelay: '4s' }} />
         </svg>
 
         {/* Corner Elements */}
@@ -158,166 +157,10 @@ const Home = () => {
           <div className="absolute bottom-0 right-0 w-2 h-2 bg-slate-300 opacity-30 rounded-full"></div>
         </div>
 
-        {/* Floating Elements */}
         <div className="floating-element-animate" style={{ top: '25%', left: '15%', animationDelay: '0.5s' }}></div>
         <div className="floating-element-animate" style={{ top: '60%', left: '85%', animationDelay: '1s' }}></div>
         <div className="floating-element-animate" style={{ top: '40%', left: '10%', animationDelay: '1.5s' }}></div>
         <div className="floating-element-animate" style={{ top: '75%', left: '90%', animationDelay: '2s' }}></div>
-
-        {/* Hero Section */}
-        <div className="section-content relative z-10 min-h-screen flex flex-col justify-between items-center px-6 py-10 sm:px-8 sm:py-12 md:px-16 md:py-20">
-          <div className="text-center">
-            <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em] opacity-80">
-              <span className="word-animate" data-delay="0">Digital</span>
-              <span className="word-animate" data-delay="300">Excellence</span>
-            </h2>
-            <div className="mt-4 w-12 sm:w-16 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
-          </div>
-
-          <div className="text-center max-w-5xl mx-auto relative">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight leading-tight tracking-tight text-slate-50 text-decoration-animate">
-              <div className="mb-4 md:mb-6">
-                <span className="word-animate" data-delay="700">Abdulmalik</span>
-                <span className="word-animate" data-delay="850">Aljabhan</span>
-              </div>
-              <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-thin text-slate-300 leading-relaxed tracking-wide">
-                <span className="word-animate" data-delay="1400">Marketing</span>
-                <span className="word-animate" data-delay="1550">Professional</span>
-              </div>
-            </h1>
-            <div className="absolute -left-6 sm:-left-8 top-1/2 transform -translate-y-1/2 w-3 sm:w-4 h-px bg-slate-300 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.2s' }}></div>
-            <div className="absolute -right-6 sm:-right-8 top-1/2 transform -translate-y-1/2 w-3 sm:w-4 h-px bg-slate-300 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.4s' }}></div>
-          </div>
-
-          <div className="text-center">
-            <div className="mb-4 w-12 sm:w-16 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
-            <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em] opacity-80 mb-6">
-              <span className="word-animate" data-delay="3000">Explore</span>
-              <span className="word-animate" data-delay="3200">My</span>
-              <span className="word-animate" data-delay="3400">Work</span>
-            </h2>
-            <div className="mt-6 flex justify-center space-x-4 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '4.2s' }}>
-              <div className="w-1 h-1 bg-slate-300 rounded-full opacity-40"></div>
-              <div className="w-1 h-1 bg-slate-300 rounded-full opacity-60"></div>
-              <div className="w-1 h-1 bg-slate-300 rounded-full opacity-40"></div>
-            </div>
-          </div>
-        </div>
-
-        {/* Experience Section */}
-        <div className="section-content relative z-10 min-h-screen py-20 px-6 sm:px-8 md:px-16">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-extralight text-slate-50 mb-12 text-decoration-animate">
-              <span className="word-animate" data-delay="0">Experience</span>
-            </h2>
-            
-            <div className="space-y-12">
-              {[
-                {
-                  title: 'Manager, Marketing & Communication Department',
-                  company: 'Wosol Concierge',
-                  period: 'Oct 2025 - Jun 2026',
-                  delay: '300'
-                },
-                {
-                  title: 'Lead Officer, Sales & Marketing Division',
-                  company: 'Saudi Tadawul Group',
-                  period: 'Oct 2023 - Aug 2024',
-                  delay: '600'
-                },
-                {
-                  title: 'Officer, Corporate Communications & Marketing Group',
-                  company: 'The Saudi National Bank',
-                  period: 'Apr 2021 - Jul 2023',
-                  delay: '900'
-                },
-              ].map((job, idx) => (
-                <div key={idx} className="border-l border-slate-400 border-opacity-30 pl-6 opacity-0" style={{ animation: 'word-appear 0.8s ease-out forwards', animationDelay: job.delay + 'ms' }}>
-                  <h3 className="text-xl font-light text-slate-100 mb-2">{job.title}</h3>
-                  <p className="text-slate-400 font-mono text-sm mb-2">{job.company}</p>
-                  <p className="text-slate-500 text-sm">{job.period}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Education Section */}
-        <div className="section-content relative z-10 min-h-screen py-20 px-6 sm:px-8 md:px-16">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-extralight text-slate-50 mb-12 text-decoration-animate">
-              <span className="word-animate" data-delay="0">Education</span>
-            </h2>
-            
-            <div className="space-y-12">
-              {[
-                {
-                  degree: 'Bachelor of Arts in Business Marketing',
-                  school: 'Concordia University, St. Paul, MN',
-                  details: 'CGPA: 3.38/4.0 | Graduated: May 2018',
-                  delay: '300'
-                },
-                {
-                  degree: 'Certified Digital Marketing Professional (CDMP)',
-                  school: 'Digital Marketing Institute (DMI)',
-                  details: 'Expected May 2026',
-                  delay: '600'
-                },
-              ].map((edu, idx) => (
-                <div key={idx} className="border-l border-slate-400 border-opacity-30 pl-6 opacity-0" style={{ animation: 'word-appear 0.8s ease-out forwards', animationDelay: edu.delay + 'ms' }}>
-                  <h3 className="text-xl font-light text-slate-100 mb-2">{edu.degree}</h3>
-                  <p className="text-slate-400 font-mono text-sm mb-2">{edu.school}</p>
-                  <p className="text-slate-500 text-sm">{edu.details}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Skills Section */}
-        <div className="section-content relative z-10 min-h-screen py-20 px-6 sm:px-8 md:px-16">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-extralight text-slate-50 mb-12 text-decoration-animate">
-              <span className="word-animate" data-delay="0">Skills</span>
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {[
-                { title: 'Meta Ads Manager', delay: '300' },
-                { title: 'GA4', delay: '500' },
-                { title: 'Project Management', delay: '700' },
-                { title: 'Languages: English & Arabic', delay: '900' },
-              ].map((skill, idx) => (
-                <div key={idx} className="border border-slate-400 border-opacity-20 rounded-lg p-6 opacity-0 hover:border-opacity-40 transition-all duration-300" style={{ animation: 'word-appear 0.8s ease-out forwards', animationDelay: skill.delay + 'ms' }}>
-                  <p className="text-slate-200 font-light">{skill.title}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Contact Section */}
-        <div className="section-content relative z-10 min-h-screen py-20 px-6 sm:px-8 md:px-16 flex flex-col justify-center items-center">
-          <div className="text-center max-w-2xl">
-            <h2 className="text-4xl md:text-5xl font-extralight text-slate-50 mb-8 text-decoration-animate">
-              <span className="word-animate" data-delay="0">Get In Touch</span>
-            </h2>
-            <p className="text-slate-300 text-lg mb-12 opacity-0" style={{ animation: 'word-appear 0.8s ease-out forwards', animationDelay: '500ms' }}>
-              Let's collaborate and create something extraordinary together.
-            </p>
-            <div className="space-y-4 opacity-0" style={{ animation: 'word-appear 0.8s ease-out forwards', animationDelay: '800ms' }}>
-              <a href="mailto:aa.aljabhan@gmail.com" className="block text-slate-300 hover:text-slate-100 transition-colors duration-300">
-                aa.aljabhan@gmail.com
-              </a>
-              <a href="tel:+966557895552" className="block text-slate-300 hover:text-slate-100 transition-colors duration-300">
-                +966 55 789 5552
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="block text-slate-300 hover:text-slate-100 transition-colors duration-300">
-                LinkedIn
-              </a>
-            </div>
-          </div>
-        </div>
 
         {/* Mouse Gradient */}
         <div 
@@ -330,7 +173,6 @@ const Home = () => {
           }}
         ></div>
 
-        {/* Ripple Effects */}
         {ripples.map(ripple => (
           <div
             key={ripple.id}
@@ -343,4 +185,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default DigitalSerenity;
