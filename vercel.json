@@ -2,10 +2,8 @@
   "buildCommand": "pnpm run build",
   "outputDirectory": "dist/public",
   "framework": "vite",
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "public": true,
+  "cleanUrls": true,
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/assets/(.*)",
@@ -17,7 +15,7 @@
       ]
     },
     {
-      "source": "/index.html",
+      "source": "/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
